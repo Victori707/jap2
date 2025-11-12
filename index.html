@@ -1,11 +1,296 @@
-[index — копия.html](https://github.com/user-attachments/files/23497211/index.html)
 <!DOCTYPE html>
 <html lang="ru">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Путешествие в Японию</title>
-  <link rel="stylesheet" href="style.css">
+  <style>
+body {
+  font-family: 'Roboto', 'Open Sans', Arial, sans-serif;
+  background: #191620;
+  margin: 0;
+  color: #fff;
+}
+header {
+  background: #ff3399;
+  color: #fff;
+  padding: 20px;
+  text-align: center;
+}
+.dates {
+  font-size: 1.2em;
+  color: #feaad6;
+}
+main {
+  max-width: 1100px;
+  margin: 20px auto 40px auto;
+  padding: 20px;
+  background: #101010;
+  border-radius: 14px;
+  box-shadow: 0 4px 24px rgba(255,51,153,0.11);
+}
+.day-navigation {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  padding: 10px 0 15px 0;
+  position: sticky;
+  top: 0;
+  background: #101010;
+  z-index: 10;
+  border-bottom: 3px solid #ff3399;
+}
+.day-nav-btn.active {
+  background: linear-gradient(90deg,#ff3399 70%,#fe52c0 100%);
+  color: #fff !important;
+  border: none;
+  outline: none;
+  font-weight: bold;
+  box-shadow: 0 2px 12px rgba(254,82,192,0.16);
+  transition: background 0.2s;
+}
+.day-nav-btn {
+  background: #101010;
+  color: #ff3399;
+  border: 2px solid #ff3399;
+  border-radius: 7px;
+  padding: 7px 13px;
+  font-size: 1.06em;
+  cursor: pointer;
+  font-weight: bold;
+  letter-spacing:1px;
+  transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+}
+.day-nav-btn:not(.active):hover {
+  background: #2b2430;
+  color: #fff;
+  box-shadow: 0 0 14px #ff339995;
+  border-color:#fe52c0;
+}
+footer {
+  text-align: center;
+  color: #feaad6;
+  font-size: 0.98em;
+  padding-bottom: 24px;
+}
+.day {
+  margin-bottom: 45px;
+  border-bottom: 1px solid #332537;
+  padding-bottom: 36px;
+}
+.day-notes {
+  margin-bottom: 6px;
+  color: #fe52c0;
+  font-size: 1.08em;
+}
+.day-summary {
+  margin-bottom: 18px;
+  color: #ffb2ec;
+}
+.day-content {
+  display: flex;
+  gap: 28px;
+  align-items: flex-start;
+}
+.timeline-col {
+  flex: 2;
+  min-width: 210px;
+}
+.timeline-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  border-left: 4px solid #fe52c0;
+  position: relative;
+}
+.timeline-event {
+  position: relative;
+  margin-bottom: 35px;
+  padding-left: 34px;
+  min-height: 36px;
+  color: #fff;
+  background: transparent;
+  transition: background 0.22s;
+  cursor: pointer;
+  user-select: none;
+}
+.timeline-event::before {
+  content: '';
+  position: absolute;
+  left: -11px;
+  top: 7px;
+  width: 18px;
+  height: 18px;
+  background: radial-gradient(circle,#fff 0%,#ff3399 40%); 
+  border: 4px solid #fe52c0;
+  box-shadow: 0 0 12px #ff3399a8, 0 2px 8px #10101044;
+  border-radius: 50%;
+  z-index: 1;
+}
+.timeline-event:hover, .timeline-event.selected {
+  background: #2b1b24;
+  box-shadow: 0 4px 14px #fe52c0 44, 0 1.5px 8px #10101066;
+  border-left: 4.5px solid #ff3399;
+  outline:1.3px solid #fe52c0aa;
+  color: #ffb2ec;
+}
+.timeline-event time {
+  font-size: 0.97em;
+  color: #feaad6;
+  font-weight: bold;
+  margin-right: 8px;
+}
+.ev-note {
+  margin-top: 3px;
+  color: #feaad6;
+  font-size: 0.97em;
+}
+.map-col {
+  flex: 3;
+  min-width: 260px;
+}
+.map-container {
+  width: 100%;
+  min-height: 220px;
+  background: linear-gradient(120deg,#251c28,#32232b,#20111f 84%);
+  border: 2px solid #ff339958;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #b751a7;
+  font-size: 1.1em;
+  margin-bottom:8px;
+  opacity: 0;
+  animation: fadeInMap 0.7s forwards;
+  box-shadow:0 2px 13px #ff339944;
+}
+@keyframes fadeInMap {
+  0% { opacity: 0; }
+  70% { opacity: 0.4; }
+  100% { opacity: 1; }
+}
+@media (max-width: 800px) {
+  main {
+    padding: 5px;
+  }
+  .day-content {
+    flex-direction: column;
+  }
+  .timeline-col, .map-col {
+    min-width: 180px;
+    width: 100%;
+  }
+  .map-container {
+    min-height: 165px;
+  }
+}
+#devmode-bar {
+  width: 100vw;
+  background: #222026;
+  padding: 8px 0 4px 0;
+  text-align: right;
+  z-index: 100;
+}
+#devmode-toggle {
+  font-weight: bold;
+  font-size:1.04em;
+  padding: 6px 16px;
+  border-radius: 7px;
+  border: 2px solid #ff3399;
+  margin: 0 14px;
+  background: #18121e;
+  color: #ff3399;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s, border 0.18s;
+}
+#devmode-toggle.dev {
+  background: #ff3399;
+  color: #fff;
+  box-shadow: 0 2px 14px #ff339956;
+  border:2px solid #fff!important;
+}
+#devmode-toggle:hover {
+  background: #332031;
+  color: #fff;
+}
+body.devmode [contenteditable="true"] {
+  outline: 2px dashed #fe52c0;
+  background: #23172a;
+  border-radius: 6px;
+  cursor: text;
+  box-shadow: 0 0 5px #fe52c0 96;
+  transition: outline 0.13s;
+}
+body.devmode .editable-input {
+  border: 2px dashed #ff3399;
+  padding: 2px 7px;
+  border-radius: 7px;
+  background: #232;
+  color: #ffb2ec;
+  font-size: 1em;
+  margin-bottom: 4px;
+}
+body.devmode select.editable-input {
+  background: #2b1c29;
+  color: #ff3399;
+  border-color: #fe52c0;
+  cursor: pointer;
+}
+body.devmode select.editable-input option {
+  background: #101010;
+  color: #ffb2ec;
+}
+body.devmode .photo-upload {
+  display: block;
+  background: #2b1c29;
+  border:1.5px solid #ff339988;
+  color:#ff3399;
+  margin: 7px 0 0 0;
+  border-radius:8px;
+  padding:6px;
+  font-size: 0.99em;
+  transition:background 0.15s;
+}
+body.devmode .photo-upload:hover {
+  background: #31202a;
+}
+.uploaded-photo {
+  max-width: 95%;
+  margin: 10px 0 0 0;
+  border-radius: 13px;
+  border:2px solid #ff339955;
+  box-shadow:0 0 12px #fe52c051;
+}
+.dev-photo-delete {
+  color: #fff;
+  background: #ff3399;
+  border:none;
+  padding: 4px 14px;
+  border-radius:6px;
+  cursor:pointer;
+  font-size:0.97em;
+  margin: 6px 0 0 9px;
+  transition:background 0.13s;
+}
+.dev-photo-delete:hover {
+  background: #2b1c29;
+  color:#ff3399;
+  border:1.5px solid #ff3399;
+}
+#computed-total {
+  font-weight: bold;
+  color: #ff3399;
+  font-size: 1.1em;
+}
+.pulse {
+  animation: pulse 0.5s ease-in-out;
+}
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); color: #fe52c0; }
+}
+  </style>
 </head>
 <body>
   <div id="devmode-bar">
@@ -24,6 +309,732 @@
     <div>Общий бюджет: <span id="budget"></span></div>
     <div style="margin-top: 10px;">Подсчёт по дням: <span id="computed-total">Загрузка...</span></div>
   </footer>
-  <script src="script.js"></script>
+  <script>
+    // Встроенные данные - загружаются из localStorage или используются дефолтные
+    window.embeddedData = {
+      "dates": "16–29 ноября 2025",
+      "budget": "~180 000 ₽",
+      "author": "Ваше Имя",
+      "header": "Путешествие в Японию",
+      "days": [
+        {
+          "id": 1,
+          "date": "16 ноября, воскресенье",
+          "title": "Вылет из Москвы",
+          "notes": "Вылет в 20:10, быть в 17:30 в Шереметьево! Уточнить по поводу багажа! В китайском аэропорту - 4 часа 55 минут. Траты - не больше 2к рублей на 1 человека (заранее обменять на юани!)",
+          "expenses": 2000,
+          "currency": "RUB",
+          "timeline": [
+            {"time": "17:30", "title": "Прибытие в аэропорт", "note": "Шереметьево, регистрация, уточнить багаж"},
+            {"time": "20:10", "title": "Вылет", "note": "Транзит в Китае 4ч 55м, траты до 2к ₽ (обмен на юани заранее)"}
+          ]
+        },
+        {
+          "id": 2,
+          "date": "17 ноября, понедельник",
+          "title": "Прилёт в Осаку",
+          "notes": "Прилёт в аэропорт Kansai в 18:30, к 20 выйдем. Ссылка на анкету: https://services.digital.go.jp/en/visit-japan-web/ В аэропорту покупаем симку - до 5к рублей на 1 человека. Поезд до Namba Station (970 ¥). До 22:00 заселение в отель Blue Motomachi.",
+          "expenses": 5000,
+          "currency": "RUB",
+          "timeline": [
+            {"time": "18:30", "title": "Прилёт в Kansai", "note": "Аэропорт Осаки, заполнить анкету заранее", "location": {"mapsUrl": "https://maps.app.goo.gl/search/Kansai+Airport"}},
+            {"time": "20:00", "title": "Поезд до Namba Station", "note": "970 ¥, время: 19:43, 19:54, 20:14", "location": {"mapsUrl": "https://maps.app.goo.gl/search/Namba+Station+Osaka"}},
+            {"time": "22:00", "title": "Заселение в отель", "note": "Blue Motomachi, 2 Chome-13-19 Motomachi, ужин в конбини", "location": {"mapsUrl": "https://maps.app.goo.gl/search/Blue+Motomachi+Osaka"}}
+          ]
+        },
+        {
+          "id": 3,
+          "date": "18 ноября, вторник",
+          "title": "Осака день 1",
+          "notes": "Надо купить билеты (7к ¥). Храмы, парки, океанариум (1,4к ₽ заранее!), Дотонбори. Проездной 900 ¥, оформление суики 250 ¥.",
+          "expenses": 13000,
+          "currency": "JPY",
+          "timeline": [
+            {"time": "9:30", "title": "Храм Намба", "note": "2 Chome-9-19 Motomachi, завтрак в конбини до 1к ¥", "location": {"mapsUrl": "https://maps.app.goo.gl/search/2+Chome-9-19+Motomachi+Naniwa+Ward+Osaka"}},
+            {"time": "10:00", "title": "Намба паркс", "note": "2 Chome-10-70 Nanbanaka", "location": {"mapsUrl": "https://maps.app.goo.gl/search/Namba+Parks+Osaka"}},
+            {"time": "10:40", "title": "Ситтэн но джи", "note": "1 Chome-11-18 Shitennoji", "location": {"mapsUrl": "https://maps.app.goo.gl/search/Shitennoji+Temple+Osaka"}},
+            {"time": "11:20", "title": "Кэйтакуэн", "note": "300 ¥, Chausuyamacho 1", "location": {"mapsUrl": "https://maps.app.goo.gl/search/Keitakuen+Garden+Osaka"}},
+            {"time": "13:00", "title": "Суйёси Тайся", "note": "2 Chome-9-89 Sumiyoshi, обед до 1,5к ¥", "location": {"mapsUrl": "https://maps.app.goo.gl/search/Sumiyoshi+Taisha+Osaka"}},
+            {"time": "15:15", "title": "Океанариум", "note": "1,4к ₽ заранее! 1 Chome-1-10 Kaigandori", "location": {"mapsUrl": "https://maps.app.goo.gl/search/Osaka+Aquarium+Kaiyukan"}},
+            {"time": "18:00", "title": "Дотонбори", "note": "Весь вечер, МидоСуджи, Donguri Kyowakoku, ужин 2к ¥, возможно Nipponbashi до 19:00", "location": {"mapsUrl": "https://maps.app.goo.gl/search/Dotonbori+Osaka"}}
+          ]
+        },
+        {
+          "id": 4,
+          "date": "19 ноября, среда",
+          "title": "Осака день 2",
+          "notes": "Наруто парк, музей истории Осаки, замок Осаки, Цутентаку. Проездной 900 ¥.",
+          "expenses": 6600,
+          "currency": "JPY",
+          "timeline": [
+            {"time": "8:30", "title": "Выход", "note": "Перекус 700 ¥"},
+            {"time": "8:50", "title": "Osaka Station", "note": "Быть на станции"},
+            {"time": "10:34", "title": "Наруто парк", "note": "Прибытие", "location": {"mapsUrl": "https://maps.app.goo.gl/search/Naruto+Park+Osaka"}},
+            {"time": "13:34", "title": "Музей истории Осаки", "note": "1к ¥ + обед 1,5к ¥", "location": {"mapsUrl": "https://maps.app.goo.gl/search/Osaka+Museum+of+History"}},
+            {"time": "15:40", "title": "Музей истории Осаки", "note": "4 Chome-1-32 Otemae, 1к ¥", "location": {"mapsUrl": "https://maps.app.goo.gl/search/Osaka+Museum+of+History"}},
+            {"time": "17:00", "title": "Замок Осаки", "note": "1-1 Osakajo", "location": {"mapsUrl": "https://maps.app.goo.gl/search/Osaka+Castle"}},
+            {"time": "19:00", "title": "Цутентаку", "note": "Ужин 1,5к ¥, 1 Chome-18-6 Ebisuhigashi", "location": {"mapsUrl": "https://maps.app.goo.gl/search/Tsutenkaku+Osaka"}}
+          ]
+        },
+        {
+          "id": 5,
+          "date": "20 ноября, четверг",
+          "title": "Осака - Киото день 3",
+          "notes": "Катсуо Джи, Нара (олени, храмы), переезд в Киото. Отправка вещей в Киото 2,4к ¥. Ужин в конбини 800 ¥.",
+          "expenses": 18000,
+          "currency": "JPY",
+          "timeline": [
+            {"time": "7:00", "title": "Выход", "note": "Завтрак 2к ¥ на всех, выселение, вещи в Киото 2,4к ¥"},
+            {"time": "8:10", "title": "Катсуо Джи", "note": "2914-1 Aomatani, Minoh, такси 3430 ¥", "location": {"mapsUrl": "https://maps.app.goo.gl/search/Katsuo-ji+Temple"}},
+            {"time": "9:40", "title": "Выезд в Осаку", "note": "Обратный путь"},
+            {"time": "11:00", "title": "Выезд в Нару", "note": "600 ¥"},
+            {"time": "12:00", "title": "Прибытие в Нару", "note": "Перекус Nakatanidou + Кофуку-джи 1,5к ¥", "location": {"mapsUrl": "https://maps.app.goo.gl/search/Nara+Park"}},
+            {"time": "12:50", "title": "Павильон", "note": "Takabatakecho", "location": {"mapsUrl": "https://maps.app.goo.gl/search/Nara+Park"}},
+            {"time": "13:20", "title": "Касуга тайся", "note": "700 ¥, 160 Kasuganocho", "location": {"mapsUrl": "https://maps.app.goo.gl/search/Kasuga+Taisha+Nara"}},
+            {"time": "14:00", "title": "Тодай джи", "note": "1к ¥, 406-1 Zoshicho", "location": {"mapsUrl": "https://maps.app.goo.gl/search/Todai-ji+Temple+Nara"}},
+            {"time": "14:40", "title": "Парк с оленями", "note": "Обед до 15:20, 2,5к ¥, 1 час с оленями", "location": {"mapsUrl": "https://maps.app.goo.gl/search/Nara+Park"}},
+            {"time": "18:30", "title": "Отправка в Киото", "note": "1,6к ¥"},
+            {"time": "20:00", "title": "Прибытие в Киото", "note": "Отель Stay Sakura Hotel, заселение до 21, 1800 ¥", "location": {"mapsUrl": "https://maps.app.goo.gl/search/Stay+Sakura+Hotel+Kyoto"}}
+          ]
+        },
+        {
+          "id": 6,
+          "date": "21 ноября, пятница",
+          "title": "Киото день 1",
+          "notes": "Лес Арашияма, Тенрю джи, галерея, храм Хэйан, парк Гион, замок Нидзо. Проездной 1,1к ¥.",
+          "expenses": 8000,
+          "currency": "JPY",
+          "timeline": [
+            {"time": "7:40", "title": "Выход", "note": "Tambaguchi Station → Saga-Arashiyama Station, перекус 700 ¥"},
+            {"time": "8:50", "title": "Лес Арашияма", "note": "Sagaogurayama Tabuchiyamacho", "location": {"mapsUrl": "https://maps.app.goo.gl/search/Arashiyama+Bamboo+Grove"}},
+            {"time": "8:50", "title": "Тенрю джи", "note": "800 ¥, Sagatenryuji Susukinobabacho 68", "location": {"mapsUrl": "https://maps.app.goo.gl/search/Tenryu-ji+Temple"}},
+            {"time": "10:00", "title": "Галерея", "note": "2,3к ¥, 6 Sagakamenoocho", "location": {"mapsUrl": "https://maps.app.goo.gl/search/Arashiyama"}},
+            {"time": "14:00", "title": "Храм Хэйан", "note": "97 Okazaki Nishitennocho, перекус 1к ¥", "location": {"mapsUrl": "https://maps.app.goo.gl/search/Heian+Shrine+Kyoto"}},
+            {"time": "15:20", "title": "Парк Гион", "note": "3 Kyotogyoen, 30м пешком", "location": {"mapsUrl": "https://maps.app.goo.gl/search/Kyoto+Gyoen+National+Garden"}},
+            {"time": "16:30", "title": "Замок Нидзо", "note": "800 ¥ если хотим, до 17", "location": {"mapsUrl": "https://maps.app.goo.gl/search/Nijo+Castle+Kyoto"}}
+          ]
+        },
+        {
+          "id": 7,
+          "date": "22 ноября, суббота",
+          "title": "Киото день 2",
+          "notes": "Пагода Ясака, Киёумидзу дэра, Сэнню джи, тофоку джи, Фусими Инари (кимоно 5к ¥), Хиробун. Проездной 1,1к ¥.",
+          "expenses": 8000,
+          "currency": "JPY",
+          "timeline": [
+            {"time": "6:30", "title": "Выход", "note": "Автобус 30 мин до Пагоды Ясака"},
+            {"time": "7:30", "title": "Киёумидзу дэра", "note": "1к ¥, 1 Chome-294 Kiyomizu, до 8:10", "location": {"mapsUrl": "https://maps.app.goo.gl/search/Kiyomizu-dera+Temple"}},
+            {"time": "9:00", "title": "Сэнню джи", "note": "500 ¥, 27 Sennyuji Yamanouchicho, 45м", "location": {"mapsUrl": "https://maps.app.goo.gl/search/Sennyu-ji+Temple"}},
+            {"time": "9:30", "title": "Тофоку джи", "note": "600 ¥, 15 Chome-778 Honmachi", "location": {"mapsUrl": "https://maps.app.goo.gl/search/Tofuku-ji+Temple"}},
+            {"time": "9:50", "title": "Фусими Инари", "note": "Завтрак 1к ¥, кимоно 5к ¥, 68 Fukakusa Yabunouchicho", "location": {"mapsUrl": "https://maps.app.goo.gl/search/Fushimi+Inari+Shrine"}},
+            {"time": "12:00", "title": "Отправка в Хиробун", "note": "1ч на метро, 30м пешком"},
+            {"time": "14:00", "title": "Обед в Хиробун", "note": "2к ¥, 87 Kuramakibunecho", "location": {"mapsUrl": "https://maps.app.goo.gl/search/Kurama+Hirobun"}},
+            {"time": "18:00", "title": "Обратно в Киото", "note": "Тем же путём"},
+            {"time": "20:00", "title": "Прибытие в Киото", "note": "Ужин/свободное время 1к ¥"}
+          ]
+        },
+        {
+          "id": 8,
+          "date": "23 ноября, воскресенье",
+          "title": "Киото день 3 - Токио",
+          "notes": "Выселение, отправка вещей (2,5к ¥), храм То джи, поезд в Токио (8,5к ₽ заранее, дорож бэнто 1,5к ¥), замок императора, Хие шинре, музей, Гинза. Проездной на 3 дня 1,5к ¥.",
+          "expenses": 10700,
+          "currency": "RUB",
+          "timeline": [
+            {"time": "9:00", "title": "Выселение", "note": "Отправка вещей 2,5к ¥, завтрак в аойтори 1к ¥", "location": {"mapsUrl": "https://maps.app.goo.gl/search/Aoitori+Kyoto"}},
+            {"time": "9:50", "title": "Храм То джи", "note": "1к ¥, 1 Kujocho", "location": {"mapsUrl": "https://maps.app.goo.gl/search/To-ji+Temple+Kyoto"}},
+            {"time": "11:00", "title": "Поезд в Токио", "note": "8,5к ₽ заранее!, дорож бэнто 1,5к ¥"},
+            {"time": "13:30", "title": "Станция Токио", "note": "Бесплатный сувенирчик"},
+            {"time": "14:00", "title": "Замок императора", "note": "1-1 Chiyoda, до 15:30", "location": {"mapsUrl": "https://maps.app.goo.gl/search/Imperial+Palace+Tokyo"}},
+            {"time": "16:00", "title": "Хие шинре", "note": "2 Chome-10-5 Nagatachō", "location": {"mapsUrl": "https://maps.app.goo.gl/search/Hie+Shrine+Tokyo"}},
+            {"time": "17:00", "title": "Музей", "note": "2,2к ₽, до 19, 5 Chome−９ Azabudai Hills", "location": {"mapsUrl": "https://maps.app.goo.gl/search/Azabudai+Hills+Tokyo"}},
+            {"time": "19:40", "title": "Гинза", "note": "Перекус 800 ¥, 6 Chome-10-1 Ginza", "location": {"mapsUrl": "https://maps.app.goo.gl/search/Ginza+Tokyo"}},
+            {"time": "21:00", "title": "Отель", "note": "Marvelous Asakusa, 4-chōme-43-7 Asakusa", "location": {"mapsUrl": "https://maps.app.goo.gl/search/Marvelous+Asakusa"}}
+          ]
+        },
+        {
+          "id": 9,
+          "date": "24 ноября, понедельник",
+          "title": "Токио день 2",
+          "notes": "Готоку Джи, Мэйдзи, Харадзюку, Сибуя, музей. Ужин 1к ¥.",
+          "expenses": 1000,
+          "currency": "RUB",
+          "timeline": [
+            {"time": "7:00", "title": "Выход", "note": "Перекус 500 ¥, метро 1,5 часа от Асакуса"},
+            {"time": "8:30", "title": "Готоку Джи", "note": "500 ¥, 2 Chome-24-7 Gotokuji", "location": {"mapsUrl": "https://maps.app.goo.gl/search/Gotokuji+Temple"}},
+            {"time": "9:50", "title": "Мэйдзи", "note": "1-1 Yoyogikamizonocho, до 11:00", "location": {"mapsUrl": "https://maps.app.goo.gl/search/Meiji+Shrine+Tokyo"}},
+            {"time": "11:30", "title": "Харадзюку", "note": "Шоппинг 45 мин, Дзингумаэ", "location": {"mapsUrl": "https://maps.app.goo.gl/search/Harajuku+Tokyo"}},
+            {"time": "13:30", "title": "Сибуя", "note": "Хатико, кафе SAKURA SIDE 1,5к ¥", "location": {"mapsUrl": "https://maps.app.goo.gl/search/Shibuya+Tokyo"}},
+            {"time": "16:00", "title": "Музей", "note": "1к ₽, 7 Chome-22-2 Roppongi", "location": {"mapsUrl": "https://maps.app.goo.gl/search/Roppongi+Tokyo"}},
+            {"time": "18:00", "title": "Токийская телебашня", "note": "Или ночной район, ужин 1к ¥, дорога домой 1ч метро", "location": {"mapsUrl": "https://maps.app.goo.gl/search/Tokyo+Tower"}}
+          ]
+        },
+        {
+          "id": 10,
+          "date": "25 ноября, вторник",
+          "title": "Токио день 3 - Камакура",
+          "notes": "Котоку Ин, Хаседера, кошигое, Donguri Kyowakoku, улица Комачи, Хококу джи, Акихабара, Уено. Ужин 1,5к ¥.",
+          "expenses": 6160,
+          "currency": "JPY",
+          "timeline": [
+            {"time": "8:00", "title": "Выход", "note": "Перекус 600 ¥"},
+            {"time": "8:08", "title": "Дорога до Kamakura", "note": "1к ¥, прибытие 9:45"},
+            {"time": "10:20", "title": "Котоку Ин", "note": "300 ¥, 4 Chome-2-28 Hase", "location": {"mapsUrl": "https://maps.app.goo.gl/search/Kotoku-in+Kamakura"}},
+            {"time": "11:00", "title": "Хаседера", "note": "400 ¥, 4 Chome-2-28 Hase", "location": {"mapsUrl": "https://maps.app.goo.gl/search/Hase-dera+Kamakura"}},
+            {"time": "12:00", "title": "Кошигое", "note": "1 Chome-1 Koshigoe", "location": {"mapsUrl": "https://maps.app.goo.gl/search/Koshigoe+Kamakura"}},
+            {"time": "12:40", "title": "Donguri Kyowakoku", "note": "Обед 1,3к ¥, улица Комачи, до 14:20", "location": {"mapsUrl": "https://maps.app.goo.gl/search/Komachi+Street+Kamakura"}},
+            {"time": "14:50", "title": "Хококу джи", "note": "400 ¥, до 16, 2 Chome-7-4 Jomyoji", "location": {"mapsUrl": "https://maps.app.goo.gl/search/Hokoku-ji+Temple"}},
+            {"time": "17:00", "title": "Акихабара / Уено", "note": "Гуляем, ужин 1,5к ¥, дорога 1к ¥", "location": {"mapsUrl": "https://maps.app.goo.gl/search/Akihabara+Tokyo"}}
+          ]
+        },
+        {
+          "id": 11,
+          "date": "26 ноября, среда",
+          "title": "Токио день 4 - Хаконе",
+          "notes": "Свободный день Вики. Выселение, вещи в камеру хранения 2к ¥. Сэнсоджи, Тсукиджи, Коишикава кокакурэн. В 14:30 быть на станции Shunjuku! Hakone free pass 7,6к ¥, билет на поезд 1,7к ¥. Поезд 15:00!",
+          "expenses": 16000,
+          "currency": "JPY",
+          "timeline": [
+            {"time": "9:00", "title": "Выход", "note": "Завтрак 2к ¥ по пути в храм"},
+            {"time": "9:40", "title": "Сэнсоджи", "note": "2 Chome-3-1 Asakusa, до 11:00, каминари Мон", "location": {"mapsUrl": "https://maps.app.goo.gl/search/Senso-ji+Temple"}},
+            {"time": "11:30", "title": "Тсукиджи", "note": "Рынок морепродуктов, 1,5к ¥, 4 Chome Tsukiji", "location": {"mapsUrl": "https://maps.app.goo.gl/search/Tsukiji+Fish+Market"}},
+            {"time": "12:50", "title": "Коишикава кокакурэн", "note": "300 ¥, до 14:10, 1 Chome-6-6 Koraku", "location": {"mapsUrl": "https://maps.app.goo.gl/search/Koishikawa+Korakuen"}},
+            {"time": "14:30", "title": "Станция Shunjuku", "note": "ОБЯЗАТЕЛЬНО! Hakone free pass 7,6к ¥, билет 1,7к ¥", "location": {"mapsUrl": "https://maps.app.goo.gl/search/Shinjuku+Station"}},
+            {"time": "15:00", "title": "ПОЕЗД", "note": "КТО ОПОЗДАЕТ ОСТАЕТСЯ В ТОКИО!"},
+            {"time": "17:40", "title": "Заселение в отель", "note": "Senkyoro, 1284 Sengokuhara, 450 ¥", "location": {"mapsUrl": "https://maps.app.goo.gl/search/Senkyoro+Hakone"}}
+          ]
+        },
+        {
+          "id": 12,
+          "date": "27 ноября, четверг",
+          "title": "Хаконе - Токио день 5",
+          "notes": "Поле Sengokuhara, сады и музей стекла, канатная дорога, Овакудани, корабль, тоори на воде. Билет 1,7к ¥. Проездной 1 день 800 ¥.",
+          "expenses": 7000,
+          "currency": "JPY",
+          "timeline": [
+            {"time": "9:00", "title": "Выселение", "note": "Поле Sengokuhara"},
+            {"time": "9:50", "title": "На остановку", "note": "К полю"},
+            {"time": "10:20", "title": "Сады и музей стекла", "note": "1,4к ¥, 1300 Gora", "location": {"mapsUrl": "https://maps.app.goo.gl/search/Hakone+Glass+Museum"}},
+            {"time": "11:20", "title": "Канатная дорога", "note": "Гора, Овакудани", "location": {"mapsUrl": "https://maps.app.goo.gl/search/Owakudani+Hakone"}},
+            {"time": "12:30", "title": "Корабль", "note": "Обед 1к ¥, до 13:40"},
+            {"time": "14:40", "title": "Тоори на воде", "note": "80-1 Motohakone", "location": {"mapsUrl": "https://maps.app.goo.gl/search/Hakone+Shrine"}},
+            {"time": "16:40", "title": "Покупка билета", "note": "1,7к ¥"},
+            {"time": "18:30", "title": "Прибытие в Токио", "note": "Отель Pod Select Hotel Tokyo Shinjuku", "location": {"mapsUrl": "https://maps.app.goo.gl/search/Pod+Select+Hotel+Tokyo+Shinjuku"}},
+            {"time": "20:00", "title": "Ужин", "note": "2к ¥, Синдзюку"}
+          ]
+        },
+        {
+          "id": 13,
+          "date": "28 ноября, пятница",
+          "title": "Последний день",
+          "notes": "Синдзуку-гёэн (500 ¥), Старбакс, завтрак и еда в самолёт 4к ¥. В 11:50 быть в аэропорту Нарита (1к ¥). 19 часов пересадка в Китае (10к ₽ - поменять в юани!). Переоформить багаж!",
+          "expenses": 10000,
+          "currency": "RUB",
+          "timeline": [
+            {"time": "9:00", "title": "Синдзуку-гёэн", "note": "500 ¥, 11 Naitomachi, Старбакс", "location": {"mapsUrl": "https://maps.app.goo.gl/search/Shinjuku+Gyoen"}},
+            {"time": "10:10", "title": "Выселение", "note": "Идём на станцию"},
+            {"time": "11:50", "title": "Аэропорт Нарита", "note": "1к ¥, ОБЯЗАТЕЛЬНО!", "location": {"mapsUrl": "https://maps.app.goo.gl/search/Narita+Airport"}},
+            {"time": "29.11 18:40", "title": "Москва", "note": "Прилёт, к 19:30 выйдем из аэропорта"}
+          ]
+        }
+      ]
+    };
+  </script>
+  <script>
+// script.js - полностью встроен
+
+let daysData = [];
+let tripDataRaw = null;
+let isDevMode = false;
+const RATE_JPY_TO_RUB = 0.68;
+
+function formatRub(n) {
+  const num = Number(n || 0);
+  return num.toLocaleString('ru-RU');
+}
+function coerceExpense(v) {
+  if (typeof v === 'number') return v;
+  if (!v) return 0;
+  const digits = String(v).replace(/[^0-9]/g, '');
+  return digits ? Number(digits) : 0;
+}
+
+function loadData() {
+  // Сначала проверяем встроенные данные (если есть дни)
+  if (window.embeddedData && typeof window.embeddedData === 'object') {
+    if (window.embeddedData.days && Array.isArray(window.embeddedData.days) && window.embeddedData.days.length > 0) {
+      return Promise.resolve(window.embeddedData);
+    }
+  }
+  // Затем localStorage (приоритет сохранённым данным пользователя)
+  const ls = localStorage.getItem('jp_itin_v1');
+  if (ls) {
+    try {
+      const parsed = JSON.parse(ls);
+      if (parsed && typeof parsed === 'object') {
+        if (!parsed.days) parsed.days = [];
+        // Если в localStorage есть дни, используем их
+        if (parsed.days.length > 0) {
+          return Promise.resolve(parsed);
+        }
+      }
+    } catch(e) {
+      console.warn('Ошибка парсинга localStorage:', e);
+    }
+  }
+  // Если в localStorage нет дней, но есть встроенные данные - используем их
+  if (window.embeddedData && typeof window.embeddedData === 'object') {
+    if (!window.embeddedData.days) window.embeddedData.days = [];
+    return Promise.resolve(window.embeddedData);
+  }
+  // Дефолтные данные
+  return Promise.resolve({
+    "dates": "16–29 ноября 2025",
+    "budget": "~180 000 ₽",
+    "author": "Ваше Имя",
+    "header": "Путешествие в Японию",
+    "days": []
+  });
+}
+
+function saveData(data) {
+  localStorage.setItem('jp_itin_v1', JSON.stringify(data));
+  // Обновляем встроенные данные
+  window.embeddedData = data;
+}
+
+function computeAndRenderTotals() {
+  if (!daysData || daysData.length === 0) {
+    const totalEl = document.getElementById('computed-total');
+    if (totalEl) totalEl.textContent = '0 ₽';
+    return;
+  }
+  let totalRUB = 0;
+  let totalJPY = 0;
+  daysData.forEach(day => {
+    const exp = coerceExpense(day.expenses);
+    const currency = day.currency || 'RUB';
+    if (currency === 'JPY') {
+      totalJPY += exp;
+    } else {
+      totalRUB += exp;
+    }
+  });
+  const jpyInRub = totalJPY * RATE_JPY_TO_RUB;
+  const grandTotal = totalRUB + jpyInRub;
+  const totalEl = document.getElementById('computed-total');
+  if (totalEl) {
+    let text = `${formatRub(Math.round(grandTotal))} ₽`;
+    if (totalJPY > 0) {
+      text += ` (${formatRub(totalJPY)} ¥ = ${formatRub(Math.round(jpyInRub))} ₽ по курсу ${RATE_JPY_TO_RUB} + ${formatRub(totalRUB)} ₽)`;
+    }
+    totalEl.textContent = text;
+    totalEl.classList.add('pulse');
+    setTimeout(() => totalEl.classList.remove('pulse'), 500);
+  }
+}
+
+function setDevMode(state) {
+  isDevMode = !!state;
+  document.body.classList.toggle('devmode', isDevMode);
+  const btn = document.getElementById('devmode-toggle');
+  if (btn) {
+    btn.classList.toggle('dev', isDevMode);
+    btn.textContent = isDevMode ? 'Выйти из режима разработчика' : 'Войти в режим разработчика';
+  }
+  const devBar = document.getElementById('devmode-bar');
+  if (devBar) {
+    let saveBtn = document.getElementById('save-plan-btn');
+    let saveHtmlBtn = document.getElementById('save-html-btn');
+    if (isDevMode) {
+      if (!saveBtn) {
+        saveBtn = document.createElement('button');
+        saveBtn.id = 'save-plan-btn';
+        saveBtn.textContent = '📝 Сохранить план';
+        saveBtn.style.cssText = 'margin-left: 10px; padding: 8px 16px; background: #4CAF50; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 14px;';
+        saveBtn.onclick = savePlanToServer;
+        devBar.appendChild(saveBtn);
+      }
+      if (!saveHtmlBtn) {
+        saveHtmlBtn = document.createElement('button');
+        saveHtmlBtn.id = 'save-html-btn';
+        saveHtmlBtn.textContent = '💾 Сохранить HTML';
+        saveHtmlBtn.style.cssText = 'margin-left: 10px; padding: 8px 16px; background: #2196F3; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 14px;';
+        saveHtmlBtn.onclick = saveHTMLToFile;
+        devBar.appendChild(saveHtmlBtn);
+      }
+    } else {
+      if (saveBtn) saveBtn.remove();
+      if (saveHtmlBtn) saveHtmlBtn.remove();
+    }
+  }
+  renderTripInfo(tripDataRaw);
+  renderDayNavigation(daysData);
+  renderItinerary(daysData);
+}
+
+function toggleDevMode() {
+  setDevMode(!isDevMode);
+  localStorage.setItem('jp_itin_devmode', isDevMode ? '1':'');
+}
+
+async function savePlanToServer() {
+  alert('⚠️ В автономном режиме данные сохраняются только локально в браузере.');
+}
+
+async function saveHTMLToFile() {
+  try {
+    // Обновляем встроенные данные перед сохранением
+    window.embeddedData = tripDataRaw;
+    const htmlContent = document.documentElement.outerHTML;
+    const blob = new Blob([htmlContent], { type: 'text/html' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'index.html';
+    a.click();
+    URL.revokeObjectURL(url);
+    alert('✅ HTML файл скачан! Теперь можно загрузить его на GitHub.');
+  } catch (error) {
+    alert('❌ Ошибка: ' + error.message);
+  }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  isDevMode = !!localStorage.getItem('jp_itin_devmode');
+  loadData().then(data => {
+    if (!data) {
+      console.error('Данные не загружены');
+      return;
+    }
+    tripDataRaw = data;
+    if (!tripDataRaw.days) tripDataRaw.days = [];
+    tripDataRaw.days = tripDataRaw.days.map(d => ({
+      ...d,
+      expenses: coerceExpense(d.expenses)
+    }));
+    daysData = tripDataRaw.days;
+    console.log('Загружено дней:', daysData.length);
+    setDevMode(isDevMode);
+    computeAndRenderTotals();
+  }).catch(err => {
+    console.error('Ошибка загрузки данных:', err);
+    // Показываем хотя бы пустую структуру
+    tripDataRaw = {
+      "dates": "16–29 ноября 2025",
+      "budget": "~180 000 ₽",
+      "author": "Ваше Имя",
+      "header": "Путешествие в Японию",
+      "days": []
+    };
+    daysData = [];
+    setDevMode(isDevMode);
+    computeAndRenderTotals();
+  });
+});
+
+function renderTripInfo(data) {
+  if (!data) return;
+  const dates = document.getElementById('trip-dates');
+  const budget = document.getElementById('budget');
+  const author = document.getElementById('author-name');
+  const header = document.querySelector('header h1');
+  if (dates) dates.textContent = data.dates || '';
+  if (budget) budget.textContent = data.budget || '';
+  if (author) {
+    author.textContent = data.author || 'Ваше Имя';
+    author.contentEditable = isDevMode;
+    author.oninput = () => { tripDataRaw.author = author.textContent; saveData(tripDataRaw); };
+  }
+  if (header) {
+    header.contentEditable = isDevMode;
+    header.oninput = () => { tripDataRaw.header = header.textContent; saveData(tripDataRaw); };
+    if (tripDataRaw.header) header.textContent = tripDataRaw.header;
+  }
+  if (isDevMode) {
+    if (dates) {
+      dates.contentEditable = true;
+      dates.oninput = () => { tripDataRaw.dates = dates.textContent; saveData(tripDataRaw); };
+    }
+    if (budget) {
+      budget.contentEditable = true;
+      budget.oninput = () => { tripDataRaw.budget = budget.textContent; saveData(tripDataRaw); };
+    }
+  } else {
+    if (dates) dates.contentEditable = false;
+    if (budget) budget.contentEditable = false;
+  }
+}
+
+function renderDayNavigation(days) {
+  const nav = document.getElementById('day-nav');
+  if (!nav) return;
+  nav.innerHTML = '';
+  if (!days || !Array.isArray(days) || days.length === 0) {
+    return;
+  }
+  days.forEach((day, idx) => {
+    const btn = document.createElement('button');
+    btn.textContent = `День ${idx + 1}`;
+    btn.className = 'day-nav-btn';
+    btn.dataset.dayIdx = idx;
+    btn.onclick = () => {
+      setActiveDay(idx);
+      scrollToDay(day.id);
+    };
+    nav.appendChild(btn);
+  });
+  if (days.length > 0) setActiveDay(0);
+}
+
+function setActiveDay(idx, skipMap) {
+  const nav = document.getElementById('day-nav');
+  if (!nav) return;
+  const buttons = nav.querySelectorAll('button');
+  buttons.forEach(b => b.classList.remove('active'));
+  if (buttons[idx]) buttons[idx].classList.add('active');
+}
+
+window.addEventListener('scroll', () => {
+  const daySections = Array.from(document.querySelectorAll('.day'));
+  if (daySections.length === 0) return;
+  let minDiff = Infinity, idxToActivate = 0;
+  const scrollY = window.scrollY + 70;
+  daySections.forEach((sec, i) => {
+    const diff = Math.abs(sec.offsetTop - scrollY);
+    if (diff < minDiff) {
+      minDiff = diff;
+      idxToActivate = i;
+    }
+  });
+  setActiveDay(idxToActivate, true);
+});
+
+window.focusEventOnMap = function(idx) {
+  const timelineEvents = document.querySelectorAll('.timeline-list .timeline-event');
+  timelineEvents.forEach(ev => ev.classList.remove('selected'));
+  if (timelineEvents[idx]) {
+    timelineEvents[idx].classList.add('selected');
+    if (window.innerWidth < 800) {
+      const section = timelineEvents[idx].closest('.day');
+      if (section) section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  }
+}
+
+function scrollToDay(dayId) {
+  const section = document.getElementById(`day-${dayId}`);
+  if (section) {
+    section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+}
+
+function renderItinerary(days) {
+  const root = document.getElementById('itinerary');
+  if (!root) {
+    console.error('Элемент #itinerary не найден');
+    return;
+  }
+  if (!days || !Array.isArray(days)) {
+    console.error('days не является массивом:', days);
+    root.innerHTML = '<p style="color: #ff3399; padding: 20px; text-align: center;">Дни не загружены. Войдите в режим разработчика и добавьте дни.</p>';
+    return;
+  }
+  if (days.length === 0) {
+    root.innerHTML = '<p style="color: #ff3399; padding: 20px; text-align: center;">Дни не добавлены. Нажмите "Войти в режим разработчика" и добавьте дни через интерфейс.</p>';
+    return;
+  }
+  root.innerHTML = '';
+  days.forEach((day, idx) => {
+    const daySection = document.createElement('section');
+    daySection.className = 'day';
+    daySection.id = `day-${day.id}`;
+    daySection.setAttribute('data-day-idx', idx);
+
+    const titleBlock = isDevMode
+      ? `<div class="day-notes" contenteditable="true" data-df="title" data-day-idx="${idx}">${day.title||''}</div>`
+      : `<div class="day-notes"><strong>${day.title||''}</strong></div>`;
+    const notesBlock = isDevMode
+      ? `<div class="dev-daynotes" contenteditable="true" data-df="notes" data-day-idx="${idx}">${day.notes||''}</div>`
+      : `<div class="dev-daynotes">${day.notes||''}</div>`;
+
+    const expVal = coerceExpense(day.expenses);
+    const currency = day.currency || 'RUB';
+    const currencySymbol = currency === 'JPY' ? '¥' : '₽';
+    const jpyEquivalent = currency === 'JPY' ? ` (~${formatRub(Math.round(expVal * RATE_JPY_TO_RUB))} ₽ по курсу ${RATE_JPY_TO_RUB})` : '';
+    
+    const expensesBlock = isDevMode
+      ? `<div class="day-summary">Итоговые траты: <input class="editable-input" type="number" min="0" step="100" value="${expVal}" data-expenses="${idx}" /> <select class="editable-input" data-currency="${idx}" style="width:80px;margin-left:4px;">
+          <option value="RUB" ${currency === 'RUB' ? 'selected' : ''}>₽ (руб)</option>
+          <option value="JPY" ${currency === 'JPY' ? 'selected' : ''}>¥ (иены)</option>
+        </select></div>`
+      : `<div class="day-summary">Итоговые траты: <b>${formatRub(expVal)} ${currencySymbol}${jpyEquivalent}</b></div>`;
+
+    let mediaBlock = '';
+    if (isDevMode) {
+      mediaBlock = `<input type="file" accept="image/*" class="photo-upload" data-day="${day.id}" data-day-idx="${idx}" />`+(day.photo ? `<img src="${day.photo}" class="uploaded-photo"><button class="dev-photo-delete" data-day="${day.id}" data-day-idx="${idx}">Удалить фото</button>`:'');
+    } else if (day.photo) {
+      mediaBlock = `<img src="${day.photo}" alt="photo" class="uploaded-photo">`;
+    }
+
+    let timelineHtml = '';
+    day.timeline.forEach((ev, eidx) => {
+      if (!isDevMode) {
+        const mapsUrl = ev.location && ev.location.mapsUrl ? ev.location.mapsUrl : null;
+        const handlerStr = mapsUrl ?
+          `event.stopPropagation(); if(window._tlClickHandler) window._tlClickHandler(${eidx}, '${mapsUrl.replace(/'/g, "\\'")}');` :
+          `event.stopPropagation(); if(window._tlClickHandler) window._tlClickHandler(${eidx}, null);`;
+        timelineHtml += `
+<li class="timeline-event" onclick="${handlerStr}">
+  <time>${ev.time||''}</time> ${ev.title||''}
+  <div class="ev-note">${ev.note || ''}</div>
+</li>`;
+      } else {
+        timelineHtml += `
+<li class="timeline-event editing" data-eidx="${eidx}" data-day-idx="${idx}">
+  <input class="editable-input" type="text" value="${ev.time||''}" data-ef="time" size="6" placeholder="Время">
+  <input class="editable-input" type="text" value="${ev.title||''}" data-ef="title" size="18" placeholder="Название">
+  <input class="editable-input" type="text" value="${(ev.location&&ev.location.mapsUrl)||''}" data-ef="mapsUrl" size="28" placeholder="Google Maps URL (опц.)">
+  <input class="editable-input" type="text" value="${ev.note||''}" data-ef="note" size="28" placeholder="Примечание">
+  <button class="dev-photo-delete" data-del-evt="${eidx}" data-day-idx="${idx}">–</button>
+</li>`;
+      }
+    });
+    if (isDevMode) {
+      timelineHtml += `<button class="photo-upload" data-add-evt="${day.id}" data-day-idx="${idx}">+ Добавить событие</button>`;
+    }
+
+    daySection.innerHTML = `
+      <h2 contenteditable="${isDevMode}" data-df="date" data-day-idx="${idx}">День ${idx+1}: ${day.date||''}</h2>
+      ${titleBlock}
+      ${notesBlock}
+      ${expensesBlock}
+      <div class="day-content">
+        <div class="timeline-col">
+          <ul class="timeline-list">${timelineHtml}</ul>
+        </div>
+        ${mediaBlock ? `<div class="map-col">${mediaBlock}</div>` : ''}
+      </div>
+    `;
+    root.appendChild(daySection);
+  });
+  if (isDevMode) addDevmodeHandlers();
+  else window._tlClickHandler = (idx, url) => { 
+    if (window.focusEventOnMap) window.focusEventOnMap(idx); 
+    if(url) window.open(url,'_blank'); 
+  };
+  computeAndRenderTotals();
+}
+
+function addDevmodeHandlers() {
+  document.querySelectorAll('[contenteditable][data-df][data-day-idx]').forEach(el => {
+    const dayIdx = Number(el.getAttribute('data-day-idx'));
+    if (isNaN(dayIdx) || dayIdx < 0 || dayIdx >= daysData.length) return;
+    el.oninput = () => {
+      const key = el.getAttribute('data-df');
+      const val = el.innerText.trim();
+      if (key === 'date') {
+        daysData[dayIdx].date = val.replace(/^День\s+\d+:\s*/i,'');
+      } else {
+        daysData[dayIdx][key] = val;
+      }
+      saveData(tripDataRaw);
+      computeAndRenderTotals();
+    };
+  });
+  
+  document.querySelectorAll('input[data-expenses]').forEach(inp => {
+    const idx = Number(inp.getAttribute('data-expenses'));
+    if (isNaN(idx) || idx < 0 || idx >= daysData.length) return;
+    inp.oninput = () => {
+      daysData[idx].expenses = coerceExpense(inp.value);
+      saveData(tripDataRaw);
+      computeAndRenderTotals();
+    };
+  });
+  
+  document.querySelectorAll('select[data-currency]').forEach(sel => {
+    const idx = Number(sel.getAttribute('data-currency'));
+    if (isNaN(idx) || idx < 0 || idx >= daysData.length) return;
+    sel.onchange = () => {
+      daysData[idx].currency = sel.value;
+      saveData(tripDataRaw);
+      renderItinerary(daysData);
+      computeAndRenderTotals();
+    };
+  });
+  
+  document.querySelectorAll('.timeline-event.editing[data-day-idx]').forEach((li) => {
+    const dayIdx = Number(li.getAttribute('data-day-idx'));
+    const eidx = Number(li.getAttribute('data-eidx'));
+    if (isNaN(dayIdx) || dayIdx < 0 || dayIdx >= daysData.length) return;
+    if (isNaN(eidx) || eidx < 0 || eidx >= (daysData[dayIdx].timeline || []).length) return;
+    
+    ['time','title','mapsUrl','note'].forEach(field => {
+      const inp = li.querySelector(`[data-ef="${field}"]`);
+      if (!inp) return;
+      inp.oninput = () => {
+        const val = inp.value;
+        if (field === 'mapsUrl') {
+          if (!daysData[dayIdx].timeline[eidx].location) daysData[dayIdx].timeline[eidx].location = {};
+          daysData[dayIdx].timeline[eidx].location.mapsUrl = val;
+        } else {
+          daysData[dayIdx].timeline[eidx][field] = val;
+        }
+        saveData(tripDataRaw);
+      };
+    });
+    
+    const del = li.querySelector('[data-del-evt]');
+    if (del) del.onclick = () => {
+      daysData[dayIdx].timeline.splice(eidx, 1);
+      saveData(tripDataRaw);
+      renderItinerary(daysData);
+      computeAndRenderTotals();
+    };
+  });
+  
+  document.querySelectorAll('[data-add-evt][data-day-idx]').forEach(btn => {
+    const dayIdx = Number(btn.getAttribute('data-day-idx'));
+    if (isNaN(dayIdx) || dayIdx < 0 || dayIdx >= daysData.length) return;
+    btn.onclick = () => {
+      daysData[dayIdx].timeline.push({time:'',title:'',note:''});
+      saveData(tripDataRaw);
+      renderItinerary(daysData);
+      computeAndRenderTotals();
+    };
+  });
+  
+  document.querySelectorAll('input.photo-upload[type="file"][data-day-idx]').forEach(inp => {
+    const dayIdx = Number(inp.getAttribute('data-day-idx'));
+    if (isNaN(dayIdx) || dayIdx < 0 || dayIdx >= daysData.length) return;
+    inp.onchange = (e) => {
+      const file = inp.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = () => {
+        daysData[dayIdx].photo = reader.result;
+        saveData(tripDataRaw);
+        renderItinerary(daysData);
+        computeAndRenderTotals();
+      };
+      reader.readAsDataURL(file);
+    };
+  });
+  
+  document.querySelectorAll('button.dev-photo-delete[data-day-idx]').forEach(btn => {
+    if (btn.hasAttribute('data-day')) {
+      const dayIdx = Number(btn.getAttribute('data-day-idx'));
+      if (isNaN(dayIdx) || dayIdx < 0 || dayIdx >= daysData.length) return;
+      btn.onclick = () => {
+        delete daysData[dayIdx].photo;
+        saveData(tripDataRaw);
+        renderItinerary(daysData);
+        computeAndRenderTotals();
+    };
+    }
+  });
+}
+  </script>
 </body>
 </html>
