@@ -27,8 +27,8 @@
           <ul class="timeline-list">
 <li class="timeline-event editing" data-eidx="0" data-day-idx="0">
   <input class="editable-input" type="text" value="17:30" data-ef="time" size="6" placeholder="Время">
-  <input class="editable-input" type="text" value="Шереметьево , регистрация" data-ef="title" size="18" placeholder="Название">
-  <input class="editable-input" type="text" value="https://www.google.com/maps/place/%D0%9C%D0%B5%D0%B6%D0%B4%D1%83%D0%BD%D0%B0%D1%80%D0%BE%D0%B4%D0%BD%D1%8B%D0%B9+%D0%B0%D1%8D%D1%80%D0%BE%D0%BF%D0%BE%D1%80%D1%82+%D0%A8%D0%B5%D1%80%D0%B5%D0%BC%D0%B5%D1%82%D1%8C%D0%B5%D0%B2%D0%BE+%D0%B8%D0%BC%D0%B5%D0%BD%D0%B8+%D0%90.+%D0%A1.+%D0%9F%D1%83%D1%88%D0%BA%D0%B8%D0%BD%D0%B0/@55.972513,37.409331,17z/data=!3m1!4b1!4m6!3m5!1s0x46b53c20c24e7149:0x5f49767ab403ed07!8m2!3d55.97251!4d37.4119059!16zL20vMDFuNTN0?entry=ttu&amp;g_ep=EgoyMDI1MTExMC4wIKXMDSoASAFQAw%3D%3D" data-ef="mapsUrl" size="28" placeholder="Google Maps URL (опц.)">
+  <input class="editable-input" type="text" value="Шереметьево, регистрация" data-ef="title" size="18" placeholder="Название">
+  <input class="editable-input" type="text" value="" data-ef="mapsUrl" size="28" placeholder="Google Maps URL (опц.)">
   <input class="editable-input" type="text" value="добраться 700-1к руб" data-ef="note" size="28" placeholder="Примечание">
   <button class="dev-photo-delete" data-del-evt="0" data-day-idx="0">–</button>
 </li>
